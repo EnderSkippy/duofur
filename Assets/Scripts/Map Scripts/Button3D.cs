@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Button3D : MonoBehaviour
@@ -34,36 +33,9 @@ public class Button3D : MonoBehaviour
 
     private void Start()
     {
-        if (!ignoreCollider)
-        {
-            StartCoroutine(WaitForRectTransform());
-        }
+        if (!ignoreCollider) StartCoroutine(WaitForRectTransform());
 
         sc = GameObject.Find("GlobalAudio").GetComponent<AudioSource>();
-    }
-
-    
-    
-    private IEnumerator WaitForRectTransform()
-    {
-        RectTransform rectTransform = GetComponent<RectTransform>();
-        int attempts = 3;
-
-        while (attempts > 0 && rectTransform.rect.width == 0)
-        {
-            attempts--;
-            yield return null; // wait for the next frame
-        }
-
-        if (rectTransform.rect.width == 0)
-        {
-            Debug.LogError($"RectTransform width is still 0 after multiple attempts on button {gameObject.name}. Hiding button...");
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            GetComponent<BoxCollider>().size = new Vector3(rectTransform.rect.width, rectTransform.rect.height, 0f);
-        }
     }
 
 
@@ -81,6 +53,30 @@ public class Button3D : MonoBehaviour
     private void OnDisable()
     {
         click = false;
+    }
+
+
+    private IEnumerator WaitForRectTransform()
+    {
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        int attempts = 3;
+
+        while (attempts > 0 && rectTransform.rect.width == 0)
+        {
+            attempts--;
+            yield return null; // wait for the next frame
+        }
+
+        if (rectTransform.rect.width == 0)
+        {
+            Debug.LogError(
+                $"RectTransform width is still 0 after multiple attempts on button {gameObject.name}. Hiding button...");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            GetComponent<BoxCollider>().size = new Vector3(rectTransform.rect.width, rectTransform.rect.height, 0f);
+        }
     }
 
     public void StartClick(string name)

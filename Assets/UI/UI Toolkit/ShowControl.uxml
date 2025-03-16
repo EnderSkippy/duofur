@@ -1,41 +1,96 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI/UI%20Toolkit/Design.uss?fileID=7433441132597879392&amp;guid=db6abca3d152003d1a5db431c66cc6b0&amp;type=3#Design" />
-    <engine:VisualElement name="BottomBar" style="flex-direction: row; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px; bottom: 0; position: absolute; right: 0; left: 0; justify-content: space-between;">
+<engine:UXML xmlns:engine="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+             editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/UI%20Toolkit/Design.uss?fileID=7433441132597879392&amp;guid=db6abca3d152003d1a5db431c66cc6b0&amp;type=3#Design"/>
+    <engine:VisualElement name="BottomBar"
+                          style="flex-direction: row; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px; bottom: 0; position: absolute; right: 0; left: 0; justify-content: space-between;">
         <engine:VisualElement name="Tools" class="container toolbar" style="flex-grow: 0;">
-            <engine:Button name="Create" icon-image="project://database/Assets/UI/Icons/Tools/add.png?fileID=2800000&amp;guid=7b5a6c828aac174a2839b77743d73c5a&amp;type=3#add" text="Create" />
+            <engine:Button name="Create"
+                           icon-image="project://database/Assets/UI/Icons/Tools/add.png?fileID=2800000&amp;guid=7b5a6c828aac174a2839b77743d73c5a&amp;type=3#add"
+                           text="Create"/>
         </engine:VisualElement>
         <engine:VisualElement name="Playback" class="container toolbar" style="flex-direction: row; flex-grow: 0;">
-            <engine:Button name="TogglePlayback" icon-image="project://database/Assets/UI/Icons/Actions/play.png?fileID=2800000&amp;guid=ebb5f2995de415459a82616d86d420ff&amp;type=3#play" style="width: 40px;" />
-            <engine:Button name="ReverseShowtape" icon-image="project://database/Assets/UI/Icons/Actions/fast-rewind.png?fileID=2800000&amp;guid=633aac2b89cf20ec7a06465dc9b67d01&amp;type=3#fast-rewind" class="unity-button-transparent" style="width: 40px;" />
-            <engine:Button name="StopShowtape" icon-image="project://database/Assets/UI/Icons/Actions/stop.png?fileID=2800000&amp;guid=c7c1203f894adeabd9a271f425dcefca&amp;type=3#stop" class="unity-button-transparent" style="width: 40px;" />
-            <engine:Button name="ForwardShowtape" icon-image="project://database/Assets/UI/Icons/Actions/fast-forward.png?fileID=2800000&amp;guid=166e88f7a0dacd99780cd75f0f7e94a8&amp;type=3#fast-forward" class="unity-button-transparent" style="width: 40px;" />
-            <engine:Slider high-value="100" name="DataSlider" value="50" fill="true" style="flex-grow: 1; width: 250px; min-width: 150px;" />
-            <engine:Slider direction="Vertical" name="VolumeSlider" fill="true" high-value="100" />
-            <engine:Button name="CurtainToggle" text="Open Curtains" />
+            <engine:Button name="TogglePlayback"
+                           icon-image="project://database/Assets/UI/Icons/Actions/play.png?fileID=2800000&amp;guid=ebb5f2995de415459a82616d86d420ff&amp;type=3#play"
+                           style="width: 40px;"/>
+            <engine:Button name="ReverseShowtape"
+                           icon-image="project://database/Assets/UI/Icons/Actions/fast-rewind.png?fileID=2800000&amp;guid=633aac2b89cf20ec7a06465dc9b67d01&amp;type=3#fast-rewind"
+                           class="unity-button-transparent" style="width: 40px;"/>
+            <engine:Button name="StopShowtape"
+                           icon-image="project://database/Assets/UI/Icons/Actions/stop.png?fileID=2800000&amp;guid=c7c1203f894adeabd9a271f425dcefca&amp;type=3#stop"
+                           class="unity-button-transparent" style="width: 40px;"/>
+            <engine:Button name="ForwardShowtape"
+                           icon-image="project://database/Assets/UI/Icons/Actions/fast-forward.png?fileID=2800000&amp;guid=166e88f7a0dacd99780cd75f0f7e94a8&amp;type=3#fast-forward"
+                           class="unity-button-transparent" style="width: 40px;"/>
+            <engine:Slider high-value="100" name="DataSlider" value="50" fill="true"
+                           style="flex-grow: 1; width: 250px; min-width: 150px;"/>
+            <engine:Slider direction="Vertical" name="VolumeSlider" fill="true" high-value="100"/>
+            <engine:Button name="CurtainToggle" text="Open Curtains"/>
         </engine:VisualElement>
     </engine:VisualElement>
-    <engine:VisualElement name="Popup" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.88); justify-content: center; visibility: hidden;">
-        <engine:VisualElement name="Warning" class="container popup" style="justify-content: flex-start; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden;">
-            <engine:VisualElement name="Icon" style="flex-grow: 1; height: 24px; width: 24px; align-self: center; background-image: url(&quot;project://database/Assets/UI/Icons/Actions/warning.png?fileID=2800000&amp;guid=4fbd77e1ac0b0d8dbb38443ca56149e7&amp;type=3#warning&quot;); margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px;" />
-            <engine:Label text="Warning" name="Title" style="font-size: 24px; -unity-text-align: upper-center;" />
-            <engine:Label text="Unknown" name="Content" style="white-space: pre-wrap; margin-bottom: 15px;" />
-            <engine:VisualElement class="splitter" style="flex-grow: 1;" />
-            <engine:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: row; justify-content: flex-end; border-top-width: 0;">
-                <engine:Button text="Cancel" name="WarningCancel" class="unity-button-text" />
-                <engine:Button text="Proceed" name="WarningProceed" class="unity-button-text" />
+    <engine:VisualElement name="Popup"
+                          style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.88); justify-content: center; visibility: hidden;">
+        <engine:VisualElement name="Warning" class="container popup"
+                              style="justify-content: flex-start; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden;">
+            <engine:VisualElement name="Icon"
+                                  style="flex-grow: 1; height: 24px; width: 24px; align-self: center; background-image: url(&quot;project://database/Assets/UI/Icons/Actions/warning.png?fileID=2800000&amp;guid=4fbd77e1ac0b0d8dbb38443ca56149e7&amp;type=3#warning&quot;); margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px;"/>
+            <engine:Label text="Warning" name="Title" style="font-size: 24px; -unity-text-align: upper-center;"/>
+            <engine:Label text="Unknown" name="Content" style="white-space: pre-wrap; margin-bottom: 15px;"/>
+            <engine:VisualElement class="splitter" style="flex-grow: 1;"/>
+            <engine:VisualElement name="Buttons"
+                                  style="flex-grow: 1; flex-direction: row; justify-content: flex-end; border-top-width: 0;">
+                <engine:Button text="Cancel" name="WarningCancel" class="unity-button-text"/>
+                <engine:Button text="Proceed" name="WarningProceed" class="unity-button-text"/>
             </engine:VisualElement>
         </engine:VisualElement>
-        <engine:VisualElement name="Progress" class="container popup" style="justify-content: center; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden; height: 75px;">
-            <engine:ProgressBar name="ProgressBar" />
+        <engine:VisualElement name="Progress" class="container popup"
+                              style="justify-content: center; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden; height: 75px;">
+            <engine:ProgressBar name="ProgressBar"/>
         </engine:VisualElement>
-        <engine:VisualElement name="Create" class="container popup" style="justify-content: flex-start; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden;">
-            <engine:VisualElement name="Icon" style="flex-grow: 1; height: 24px; width: 24px; align-self: center; background-image: url(&quot;project://database/Assets/UI/Icons/Tools/add.png?fileID=2800000&amp;guid=7b5a6c828aac174a2839b77743d73c5a&amp;type=3#add&quot;); margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px;" />
-            <engine:Label text="Create" name="Title" style="font-size: 24px; -unity-text-align: upper-center;" />
-            <engine:Button text="&lt;size=16px&gt;New&lt;/size&gt;&#10;&lt;i&gt;&lt;size=11&gt;Create a blank showtape from scratch&lt;/size&gt;&lt;/i&gt;" name="New" icon-image="project://database/Assets/UI/Icons/Actions/chevron-right.png?fileID=2800000&amp;guid=24a172d474cea85249d989a0cd889cf8&amp;type=3#chevron-right" class="unity-button-text unity-button-text-arrowed" />
-            <engine:Button text="&lt;size=16px&gt;Convert&lt;/size&gt;&#10;&lt;i&gt;&lt;size=11&gt;Convert a Reel to Real showtape to OGP&lt;/size&gt;&lt;/i&gt;" name="Convert" icon-image="project://database/Assets/UI/Icons/Actions/chevron-right.png?fileID=2800000&amp;guid=24a172d474cea85249d989a0cd889cf8&amp;type=3#chevron-right" class="unity-button-text unity-button-text-arrowed" />
-            <engine:VisualElement name="Splitter" class="splitter" style="flex-grow: 1;" />
-            <engine:VisualElement name="Buttons" style="flex-grow: 1; flex-direction: row; justify-content: flex-end; border-top-width: 0;">
-                <engine:Button text="Cancel" name="Cancel" class="unity-button-text" />
+        <engine:VisualElement name="Create" class="container popup"
+                              style="justify-content: flex-start; align-items: stretch; align-self: center; flex-grow: 0; min-width: 300px; max-width: 300px; visibility: hidden;">
+            <engine:VisualElement name="Icon"
+                                  style="flex-grow: 1; height: 24px; width: 24px; align-self: center; background-image: url(&quot;project://database/Assets/UI/Icons/Tools/add.png?fileID=2800000&amp;guid=7b5a6c828aac174a2839b77743d73c5a&amp;type=3#add&quot;); margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px;"/>
+            <engine:Label text="Create" name="Title" style="font-size: 24px; -unity-text-align: upper-center;"/>
+            <engine:Button
+                    text="&lt;size=16px&gt;New&lt;/size&gt;&#10;&lt;i&gt;&lt;size=11&gt;Create a blank showtape from scratch&lt;/size&gt;&lt;/i&gt;"
+                    name="New"
+                    icon-image="project://database/Assets/UI/Icons/Actions/chevron-right.png?fileID=2800000&amp;guid=24a172d474cea85249d989a0cd889cf8&amp;type=3#chevron-right"
+                    class="unity-button-text unity-button-text-arrowed"/>
+            <engine:Button
+                    text="&lt;size=16px&gt;Convert&lt;/size&gt;&#10;&lt;i&gt;&lt;size=11&gt;Convert a Reel to Real showtape to OGP&lt;/size&gt;&lt;/i&gt;"
+                    name="Convert"
+                    icon-image="project://database/Assets/UI/Icons/Actions/chevron-right.png?fileID=2800000&amp;guid=24a172d474cea85249d989a0cd889cf8&amp;type=3#chevron-right"
+                    class="unity-button-text unity-button-text-arrowed"/>
+            <engine:VisualElement name="Splitter" class="splitter" style="flex-grow: 1;"/>
+            <engine:VisualElement name="Buttons"
+                                  style="flex-grow: 1; flex-direction: row; justify-content: flex-end; border-top-width: 0;">
+                <engine:Button text="Cancel" name="Cancel" class="unity-button-text"/>
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="New" class="container popup"
+                              style="justify-content: center; align-items: stretch; align-self: center; flex-grow: 0; visibility: hidden; width: 500px;">
+            <engine:VisualElement name="Icon"
+                                  style="flex-grow: 1; height: 24px; width: 24px; align-self: center; background-image: url(&quot;project://database/Assets/UI/Icons/Tools/add.png?fileID=2800000&amp;guid=7b5a6c828aac174a2839b77743d73c5a&amp;type=3#add&quot;); margin-top: 6px; margin-right: 6px; margin-bottom: 6px; margin-left: 6px;"/>
+            <engine:Label text="New Showtape" name="Title" style="font-size: 24px; -unity-text-align: upper-center;"/>
+            <engine:GroupBox text="Metadata" name="Metadata">
+                <engine:TextField label="Name" name="Name"/>
+                <engine:TextField label="Author" name="Author"/>
+                <engine:TextField label="Description" name="Description" style="height: 100px;"/>
+                <engine:TextField label="Additional Info" name="Author"/>
+            </engine:GroupBox>
+            <engine:GroupBox text="Audio &amp; Video" name="AV">
+                <engine:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: space-around;">
+                    <engine:Button text="Select Audio" name="SelectAudio" style="flex-grow: 1; margin-right: 5px;"/>
+                    <engine:Button text="Select Video" name="SelectVideo" class="unity-button-outlined"
+                                   style="flex-grow: 1; margin-left: 5px;"/>
+                </engine:VisualElement>
+            </engine:GroupBox>
+            <engine:VisualElement name="Splitter" class="splitter"
+                                  style="flex-grow: 1; margin-top: 10px; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
+            <engine:VisualElement name="Buttons"
+                                  style="flex-grow: 1; flex-direction: row; justify-content: flex-end; border-top-width: 0;">
+                <engine:Button text="Cancel" name="Cancel" class="unity-button-text"/>
+                <engine:Button text="Create" name="Proceed" class="unity-button-text"/>
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>

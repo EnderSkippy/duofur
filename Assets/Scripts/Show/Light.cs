@@ -6,26 +6,38 @@ using UnityEngine.Serialization;
 namespace Show
 {
     /// <summary>
-    /// Light controller script. This allows many properties of a Light to be manipulated by the show controller.
+    ///     Light controller script. This allows many properties of a Light to be manipulated by the show controller.
     /// </summary>
-
     [RequireComponent(typeof(Light))]
     public class Light : MonoBehaviour
     {
-        [Header("General Settings")]
-        [FormerlySerializedAs("lightBit")] public int bit;
+        public enum LightMode
+        {
+            Normal,
+            Strobe,
+            Flash
+        }
+
+        public enum SpecialMode
+        {
+            None = 0,
+            Helicopter,
+            CuStar
+        }
+
+        [Header("General Settings")] [FormerlySerializedAs("lightBit")]
+        public int bit;
+
         [FormerlySerializedAs("invertBit")] public bool invert;
         public Drawer drawer;
-    
-        [Header("Light Settings")]
-        [Range(0, 1000)] public float intensity;
+
+        [Header("Light Settings")] [Range(0, 1000)]
+        public float intensity;
 
         [Range(0, 3)] public float fadeTime;
         public LightMode lightMode;
 
-        [Header("Special Settings")]
-        public SpecialMode specialMode;
-
+        [Header("Special Settings")] public SpecialMode specialMode;
 
 
         public bool materialLight;
@@ -35,23 +47,8 @@ namespace Show
         public Color emissiveMatColor = Color.white;
         public bool materialStars;
         public Texture2D[] starCookies;
-        private float acceleration;
-        private UnityEngine.Light currentLight;
-        private int currentTextureSet;
 
-        private Material emissiveTexture;
 
-        //Values
-        private bool flashCheck;
-        private float nextTime;
-        private float speed;
-        private bool textureSet;
-
-        private bool errorOccured;
-    
-        ShowController showController;
-
-    
         // DEPRECATED - Only here for caching before conversion.
         // If values exist, you **must** convert via Duofur > RR Conversion Tools
         [HideInInspector] [Obsolete] public float intensityMultiplier;
@@ -59,6 +56,21 @@ namespace Show
         [HideInInspector] [Obsolete] public bool strobe;
         [HideInInspector] [Obsolete] public bool flash;
         [HideInInspector] [Obsolete] public float fadeSpeed;
+        private float acceleration;
+        private UnityEngine.Light currentLight;
+        private int currentTextureSet;
+
+        private Material emissiveTexture;
+
+        private bool errorOccured;
+
+        //Values
+        private bool flashCheck;
+        private float nextTime;
+
+        private ShowController showController;
+        private float speed;
+        private bool textureSet;
 
 
         private void Awake()
@@ -80,25 +92,21 @@ namespace Show
 
         private void Update()
         {
-            if (showController.active)
-            {
-                UpdateLight();
-            }
+            if (showController.active) UpdateLight();
         }
 
         public void UpdateLight()
         {
             if (errorOccured == false)
-            {
                 try
                 {
                     bool onOff = false;
                     if (drawer == Drawer.Top && showController.topDrawer[bit - 1])
                         onOff = true;
-                    else if (drawer == Drawer.Bottom && showController.bottomDrawer[bit - 1]) 
+                    else if (drawer == Drawer.Bottom && showController.bottomDrawer[bit - 1])
                         onOff = true;
                     if (invert) onOff = !onOff;
-                    
+
                     if (lightMode == LightMode.Flash)
                     {
                         if (onOff)
@@ -110,13 +118,13 @@ namespace Show
                             }
                             else
                             {
-                                nextTime -= (1 / fadeTime) * Time.deltaTime;
+                                nextTime -= 1 / fadeTime * Time.deltaTime;
                             }
                         }
                         else
                         {
                             if (flashCheck) flashCheck = false;
-                            nextTime -= (1 / fadeTime) * Time.deltaTime;
+                            nextTime -= 1 / fadeTime * Time.deltaTime;
                         }
                     }
                     else if (lightMode == LightMode.Strobe)
@@ -124,21 +132,21 @@ namespace Show
                         if (onOff)
                         {
                             if (nextTime != 0)
-                                nextTime -= (1 / fadeTime) * 2 * Time.deltaTime;
+                                nextTime -= 1 / fadeTime * 2 * Time.deltaTime;
                             else
                                 nextTime = 1;
                         }
                         else
                         {
-                            nextTime -= (1 / fadeTime) * 2 * Time.deltaTime;
+                            nextTime -= 1 / fadeTime * 2 * Time.deltaTime;
                         }
                     }
                     else
                     {
                         if (onOff)
-                            nextTime += (1 / fadeTime) * Time.deltaTime;
+                            nextTime += 1 / fadeTime * Time.deltaTime;
                         else
-                            nextTime -= (1 / fadeTime) * Time.deltaTime;
+                            nextTime -= 1 / fadeTime * Time.deltaTime;
                     }
 
                     nextTime = Mathf.Min(Mathf.Max(nextTime, 0), 1);
@@ -196,8 +204,9 @@ namespace Show
                                 currentTextureSet = Mathf.FloorToInt(speed) + 1;
                             }
 
-                            currentLight.intensity = Mathf.Clamp(Mathf.Sin(speed * Mathf.PI * 2 - Mathf.PI / 2.0f) + 1, 0.5f, 1) *
-                                                     intensity * nextTime;
+                            currentLight.intensity =
+                                Mathf.Clamp(Mathf.Sin(speed * Mathf.PI * 2 - Mathf.PI / 2.0f) + 1, 0.5f, 1) *
+                                intensity * nextTime;
 
                             speed += Time.deltaTime * 15;
                         }
@@ -214,24 +223,10 @@ namespace Show
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError("Light Controller error at " + gameObject.name + ": " + ex.Message + "\n" + ex.StackTrace);
+                    Debug.LogError("Light Controller error at " + gameObject.name + ": " + ex.Message + "\n" +
+                                   ex.StackTrace);
                     errorOccured = true;
                 }
-            }
-        }
-    
-        public enum SpecialMode
-        {
-            None = 0,
-            Helicopter,
-            CuStar,
-        }
-
-        public enum LightMode
-        {
-            Normal,
-            Strobe,
-            Flash
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,6 @@ namespace Show
 {
     public class Curtains : MonoBehaviour
     {
-
         [Range(0.0001f, .01f)] public float[] flowControlOut;
 
         [Range(0.0001f, .01f)] public float[] flowControlIn;
@@ -16,9 +14,9 @@ namespace Show
         private readonly List<int> cylindersBottom = new();
         private readonly List<int> cylindersTop = new();
 
-        private Animator characterValves;
-        
         private ShowController _showController;
+
+        private Animator characterValves;
 
         private void Start()
         {
@@ -38,10 +36,7 @@ namespace Show
 
         private void Update()
         {
-            if (_showController.active)
-            {
-                CreateMovements(Time.deltaTime * _showController.updateRate);
-            }
+            if (_showController.active) CreateMovements(Time.deltaTime * _showController.updateRate);
         }
 
         public void CreateMovements(float num3)
@@ -76,13 +71,8 @@ namespace Show
 
                     //Set bool
                     if (drawer[currentAnim - 1])
-                    {
                         curtainbools[lasti] = true;
-                    }
-                    else if (drawer[currentAnim + 1 - 1])
-                    {
-                        curtainbools[lasti] = false;
-                    }
+                    else if (drawer[currentAnim + 1 - 1]) curtainbools[lasti] = false;
 
                     //Set Curtain
                     if (!curtainOverride)

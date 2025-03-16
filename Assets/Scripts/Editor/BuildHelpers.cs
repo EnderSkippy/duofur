@@ -1,16 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml;
-using System.Xml.Linq;
-
-using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
-
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace UnityEditor.XR.Management
 {
@@ -18,7 +7,7 @@ namespace UnityEditor.XR.Management
     {
         internal static void CleanOldSettings<T>()
         {
-            UnityEngine.Object[] preloadedAssets = PlayerSettings.GetPreloadedAssets();
+            var preloadedAssets = PlayerSettings.GetPreloadedAssets();
             if (preloadedAssets == null)
                 return;
 
@@ -29,10 +18,7 @@ namespace UnityEditor.XR.Management
             if (oldSettings != null && oldSettings.Any())
             {
                 var assets = preloadedAssets.ToList();
-                foreach (var s in oldSettings)
-                {
-                    assets.Remove(s);
-                }
+                foreach (Object s in oldSettings) assets.Remove(s);
 
                 PlayerSettings.SetPreloadedAssets(assets.ToArray());
             }

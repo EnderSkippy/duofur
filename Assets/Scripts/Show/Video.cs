@@ -5,19 +5,19 @@ namespace Show
     public class Video : MonoBehaviour
     {
         private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
-        ShowController showController;
-        MeshRenderer renderer;
+        private MeshRenderer renderer;
+        private ShowController showController;
 
-        
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Awake()
+        private void Awake()
         {
             showController = GameObject.FindGameObjectWithTag("Show Controller").GetComponent<ShowController>();
             renderer = gameObject.GetComponent<MeshRenderer>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (showController.active)
                 renderer.material.SetColor(BaseColor, Color.black);
@@ -26,6 +26,3 @@ namespace Show
         }
     }
 }
-
-
-

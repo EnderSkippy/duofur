@@ -1,25 +1,27 @@
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class ControlUI : MonoBehaviour
 {
-    private VisualElement _root;
-    
+    private Button _createNew, _createConvert, _createCancel;
+
+    private VisualElement _createPopup;
+
     private VisualElement _popup;
+    private ProgressBar _progressBar;
+
+    private VisualElement _progressPopup;
+    private VisualElement _root;
+
+    private ShowController _showManager;
     private VisualElement _warningPopup;
     private Button _warningProceed, _warningCancel;
 
-    private VisualElement _createPopup;
-    private Button _createNew, _createConvert, _createCancel;
-    
-    private VisualElement _progressPopup;
-    private ProgressBar _progressBar;
-
-    private ShowController _showManager;
-
     private bool _warningResult; // Track the result
-
     private void Awake()
     {
         _showManager = GameObject.FindGameObjectWithTag("Show Controller").GetComponent<ShowController>();
@@ -28,7 +30,7 @@ public class ControlUI : MonoBehaviour
     private void OnEnable()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
-        
+
         _popup = _root.Q<VisualElement>("Popup");
         _popup.visible = false;
         _warningPopup = _popup.Q<VisualElement>("Warning");
@@ -40,24 +42,26 @@ public class ControlUI : MonoBehaviour
         _createNew = _createPopup.Q<Button>("New");
         _createConvert = _createPopup.Q<Button>("Convert");
         _createCancel = _createPopup.Q<Button>("Cancel");
-        
+
         _progressPopup = _popup.Q<VisualElement>("Progress");
         _progressBar = _progressPopup.Q<ProgressBar>("ProgressBar");
     }
 
-    public void DisplayWarning(string content, System.Action<bool> callback)
+    public void DisplayWarning(string content, Action<bool> callback)
     {
         _warningPopup.Q<Label>("Content").text = content;
         _popup.visible = true;
         _warningPopup.visible = true;
 
-        _warningProceed.clicked += () => {
+        _warningProceed.clicked += () =>
+        {
             _popup.visible = false;
             _warningPopup.visible = false;
             callback(true);
         };
 
-        _warningCancel.clicked += () => {
+        _warningCancel.clicked += () =>
+        {
             _popup.visible = false;
             _warningPopup.visible = false;
             callback(false);
@@ -66,10 +70,12 @@ public class ControlUI : MonoBehaviour
 
     public void DisplayConvert()
     {
+        
         _popup.visible = true;
         _createPopup.visible = true;
-        
-        _createCancel.clicked += () => {
+
+        _createCancel.clicked += () =>
+        {
             _popup.visible = false;
             _createPopup.visible = false;
         };
@@ -80,8 +86,9 @@ public class ControlUI : MonoBehaviour
             _createPopup.visible = false;
             _showManager.New();
         };
-        
-        _createConvert.clicked += () => {
+
+        _createConvert.clicked += () =>
+        {
             _popup.visible = false;
             _createPopup.visible = false;
             _showManager.Convert();

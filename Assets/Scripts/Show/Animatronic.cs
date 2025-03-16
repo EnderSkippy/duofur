@@ -1,27 +1,27 @@
 using System;
-using System.Collections.Generic;
 using Global;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
 using Random = UnityEngine.Random;
 
 /// <summary>
-/// This script controls movements & more for the animatronic the script is attached to. Formerly known as Character_Valves.cs 
+///     This script controls movements & more for the animatronic the script is attached to. Formerly known as
+///     Character_Valves.cs
 /// </summary>
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AudioSource))]
 public class Animatronic : MonoBehaviour
 {
-    [Header("General")] 
-    [Range(0, 1)]
-    public float PSIScale = 1;
-    public Movement[] movements; 
     public enum DualPressureState
     {
         Off,
-        Rockafire,
+        Rockafire
+    }
+
+    public enum SoundStyle
+    {
+        Rockafire
     }
 
     public enum SpecialState
@@ -30,24 +30,15 @@ public class Animatronic : MonoBehaviour
         Cyber,
         CyberSwinger
     }
-    
-    public enum SoundStyle
-    {
-        Rockafire,
-    }
 
-    [Header("Sounds")] 
-    private AudioSource _generalAudioSource;
+    [Header("General")] [Range(0, 1)] public float PSIScale = 1;
+
+    public Movement[] movements;
 
     public SoundStyle soundStyle;
     public bool valves;
-    private AudioClip[] _valveAudiosIn; // 0 should always exist, 1 is an alt sound
-    private AudioClip[] _valveAudiosOut; // 0 should always exist, 1 is an alt sound
-    private AudioSource _valveAudioSource;
     public bool squeaks;
-    private AudioClip[] _squeakAudios;
     public bool airLeaks;
-    private AudioClip[] _airLeakAudios;
 
     [Header("Attributes")] public DualPressureState dualPressureState = DualPressureState.Off;
 
@@ -55,28 +46,34 @@ public class Animatronic : MonoBehaviour
 
     public int headOutBit;
     public int headInBit;
-    
+    private AirCompressor _airCompressor;
+    private AudioClip[] _airLeakAudios;
 
-    private Animator animator;
-    
-    private float headSwingAccel;
+    [Header("Sounds")] private AudioSource _generalAudioSource;
 
-    private bool numeratorLoop;
-    
     // Playables
     private PlayableGraph _graph;
     private AnimationLayerMixerPlayable _mixer;
     private AnimationPlayableOutput _output;
 
     private ShowController _showController;
-    private AirCompressor _airCompressor;
-    
+    private AudioClip[] _squeakAudios;
+    private AudioClip[] _valveAudiosIn; // 0 should always exist, 1 is an alt sound
+    private AudioSource _valveAudioSource;
+    private AudioClip[] _valveAudiosOut; // 0 should always exist, 1 is an alt sound
+
+
+    private Animator animator;
+
+    private float headSwingAccel;
+
+    private bool numeratorLoop;
+
     private void Awake()
     {
         if (movements.Length == 0)
-        {
-            Debug.LogWarning($"No movements assigned to {gameObject.name} so disabling. Please assign at least one in the inspector.");
-        }
+            Debug.LogWarning(
+                $"No movements assigned to {gameObject.name} so disabling. Please assign at least one in the inspector.");
         _showController = GameObject.FindGameObjectWithTag("Show Controller").GetComponent<ShowController>();
         _airCompressor = GameObject.FindGameObjectWithTag("Air Compressor").GetComponent<AirCompressor>();
     }
@@ -84,13 +81,13 @@ public class Animatronic : MonoBehaviour
     private void Start()
     {
         transform.parent.name = transform.parent.name.Replace("(Clone)", "").Trim();
-        
+
         Debug.Log("Startup Performed on " + name);
-        
+
         animator = GetComponent<Animator>();
         animator.cullingMode = AnimatorCullingMode.CullCompletely;
         animator.runtimeAnimatorController = null;
-        
+
         _valveAudioSource = new GameObject("ValveSounds").AddComponent<AudioSource>();
         _valveAudioSource.transform.SetParent(transform.parent);
         _valveAudioSource.transform.localPosition = new Vector3(0, -1, 0);
@@ -99,38 +96,35 @@ public class Animatronic : MonoBehaviour
         _valveAudioSource.rolloffMode = AudioRolloffMode.Linear;
         _valveAudioSource.minDistance = 0.1f;
         _valveAudioSource.maxDistance = 5;
-        
+
         AudioLowPassFilter filter = _valveAudioSource.gameObject.AddComponent<AudioLowPassFilter>();
         filter.cutoffFrequency = 1000;
         filter.lowpassResonanceQ = 1f;
-        
+
         _generalAudioSource = GetComponent<AudioSource>();
         _generalAudioSource.volume = 0.5f;
         _generalAudioSource.spatialBlend = 1;
         _generalAudioSource.maxDistance = 3;
-        
-        _valveAudiosIn = Resources.LoadAll <AudioClip>("Audio/Animatronics/" + soundStyle + "/Valve/In/" );
-        _valveAudiosOut = Resources.LoadAll <AudioClip>("Audio/Animatronics/" + soundStyle + "/Valve/Out/" );
-        _squeakAudios = Resources.LoadAll <AudioClip>("Audio/Animatronics/" + soundStyle + "/Squeak/");
-        _airLeakAudios = Resources.LoadAll <AudioClip>("Audio/Animatronics/" + soundStyle + "/AirLeak/");
-        
+
+        _valveAudiosIn = Resources.LoadAll<AudioClip>("Audio/Animatronics/" + soundStyle + "/Valve/In/");
+        _valveAudiosOut = Resources.LoadAll<AudioClip>("Audio/Animatronics/" + soundStyle + "/Valve/Out/");
+        _squeakAudios = Resources.LoadAll<AudioClip>("Audio/Animatronics/" + soundStyle + "/Squeak/");
+        _airLeakAudios = Resources.LoadAll<AudioClip>("Audio/Animatronics/" + soundStyle + "/AirLeak/");
+
         SetupPlayables();
         _graph.Play();
-        
+
         Debug.Log($"{gameObject.name} is Ready! Playables: {_mixer.GetInputCount()}");
+    }
+
+    private void Update()
+    {
+        if (_showController.active) CreateMovements(Time.deltaTime * _showController.updateRate);
     }
 
     private void OnDisable()
     {
         _graph.Destroy();
-    }
-
-    private void Update()
-    {
-        if (_showController.active)
-        {
-            CreateMovements(Time.deltaTime * _showController.updateRate);
-        }
     }
 
     /// <summary>
@@ -142,7 +136,6 @@ public class Animatronic : MonoBehaviour
     public void CreateMovements(float timeDeltaTime)
     {
         if (_showController != null)
-        {
             for (int i = 0; i < movements.Length; i++)
             {
                 if (specialState == SpecialState.Cyber || specialState == SpecialState.CyberSwinger)
@@ -151,11 +144,11 @@ public class Animatronic : MonoBehaviour
                         CreateCyberMovements(i, timeDeltaTime);
                         i++;
                     }
-                
+
                 //Assign PSI and Valve Position
                 float currentValvePos = _mixer.GetInputWeight(i);
                 float valvePsi = _airCompressor.airPressure / 1050f * PSIScale * timeDeltaTime;
-                
+
                 bool state;
                 bool dpr = false;
                 if (movements[i].drawer == Drawer.Top)
@@ -185,16 +178,18 @@ public class Animatronic : MonoBehaviour
                             break;
                     }
                 }
-                
+
                 float smash;
                 float smashSpeed;
                 if (state)
                 {
                     //Outwards Movement Calculation
-                    movements[i].weightOut = Mathf.Min(movements[i].weightOut + movements[i].flowControlOut * movements[i].flowControlOut / 2f,
+                    movements[i].weightOut = Mathf.Min(
+                        movements[i].weightOut + movements[i].flowControlOut * movements[i].flowControlOut / 2f,
                         1f + (1f - movements[i].flowControlOut) * 0.3f);
                     movements[i].weightIn = 0f;
-                    currentValvePos += valvePsi * movements[i].flowControlOut * movements[i].weightOut * movements[i].gravityScaleOut *
+                    currentValvePos += valvePsi * movements[i].flowControlOut * movements[i].weightOut *
+                                       movements[i].gravityScaleOut *
                                        movements[i].invert;
                     smash = movements[i].smashOut;
                     smashSpeed = movements[i].smashSpeedOut;
@@ -202,10 +197,12 @@ public class Animatronic : MonoBehaviour
                 else
                 {
                     //Inwards Movement Calculation
-                    movements[i].weightIn = Mathf.Min(movements[i].weightIn + movements[i].flowControlIn * movements[i].flowControlIn / 2f,
+                    movements[i].weightIn = Mathf.Min(
+                        movements[i].weightIn + movements[i].flowControlIn * movements[i].flowControlIn / 2f,
                         1f + (1f - movements[i].flowControlIn) * 0.3f);
                     movements[i].weightOut = 0f;
-                    currentValvePos -= valvePsi * movements[i].flowControlIn * movements[i].weightIn * movements[i].gravityScale * movements[i].invert;
+                    currentValvePos -= valvePsi * movements[i].flowControlIn * movements[i].weightIn *
+                                       movements[i].gravityScale * movements[i].invert;
                     smash = movements[i].smashIn;
                     smashSpeed = movements[i].smashSpeedIn;
                 }
@@ -218,10 +215,12 @@ public class Animatronic : MonoBehaviour
                 }
 
                 //Smash Calculation
-                if (movements[i].invert == 1) movements[i].invert = Mathf.Min(movements[i].invert + timeDeltaTime * smashSpeed, 1f);
+                if (movements[i].invert == 1)
+                    movements[i].invert = Mathf.Min(movements[i].invert + timeDeltaTime * smashSpeed, 1f);
                 if (currentValvePos < 0 && smash != 0 && movements[i].smashIteration < 4)
                 {
-                    movements[i].invert = -smash * (Mathf.Abs(currentValvePos + 1) / movements[i].smashIteration / timeDeltaTime);
+                    movements[i].invert =
+                        -smash * (Mathf.Abs(currentValvePos + 1) / movements[i].smashIteration / timeDeltaTime);
                     movements[i].smashState = state;
                     movements[i].smashIteration++;
                 }
@@ -234,11 +233,10 @@ public class Animatronic : MonoBehaviour
                 }
 
                 //Final Value
-                currentValvePos = Mathf.Min(Mathf.Max(currentValvePos, 0f), 1f); 
+                currentValvePos = Mathf.Min(Mathf.Max(currentValvePos, 0f), 1f);
                 HandleSounds(i);
                 _mixer.SetInputWeight(i, currentValvePos);
             }
-        }
     }
 
 
@@ -345,17 +343,14 @@ public class Animatronic : MonoBehaviour
         characterValves.SetFloat(hash, currentAnimState);
         */
     }
-    
+
     /// <summary>
-    /// Sets up the graph, mixer, output and clips for the new Playables system
-    /// Playables is a dynamic replacement for manually creating AnimationControllers for animatronics
+    ///     Sets up the graph, mixer, output and clips for the new Playables system
+    ///     Playables is a dynamic replacement for manually creating AnimationControllers for animatronics
     /// </summary>
     public void SetupPlayables()
     {
-        if (movements == null || movements.Length == 0)
-        {
-            return;
-        }
+        if (movements == null || movements.Length == 0) return;
 
         _graph = PlayableGraph.Create();
         _graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
@@ -365,11 +360,11 @@ public class Animatronic : MonoBehaviour
 
         for (int i = 0; i < movements.Length; i++)
         {
-            var playable = AnimationClipPlayable.Create(_graph, movements[i].animation);
+            AnimationClipPlayable playable = AnimationClipPlayable.Create(_graph, movements[i].animation);
             playable.SetApplyFootIK(false);
             playable.SetApplyPlayableIK(false);
             movements[i].Playable = playable;
-            
+
             _graph.Connect(playable, 0, _mixer, i);
             _mixer.SetInputWeight(i, 0);
             _mixer.SetLayerAdditive((uint)i, true);
@@ -382,10 +377,10 @@ public class Animatronic : MonoBehaviour
         if (!valves) return;
 
         bool isTopDrawer = movements[i].drawer == Drawer.Top;
-        bool currentState = isTopDrawer 
-            ? _showController.topDrawer[movements[i].bit] 
+        bool currentState = isTopDrawer
+            ? _showController.topDrawer[movements[i].bit]
             : _showController.bottomDrawer[movements[i].bit];
-        
+
         if (currentState && !movements[i].previousState) // Valve In
         {
             if (_valveAudiosIn.Length > 0)
@@ -400,13 +395,11 @@ public class Animatronic : MonoBehaviour
             {
                 movements[i].mid = true;
                 if (_squeakAudios.Length > 0)
-                {
                     if (Random.Range(0, 50) == 0) // Random chance for a squeak!
                     {
                         _generalAudioSource.pitch = Random.Range(0.2f, 0.6f);
                         _generalAudioSource.PlayOneShot(_squeakAudios[Random.Range(0, _squeakAudios.Length)]);
                     }
-                }
             }
         }
         else if (!currentState && movements[i].previousState) // Valve Out
@@ -421,32 +414,31 @@ public class Animatronic : MonoBehaviour
         // update the previous state
         movements[i].previousState = currentState;
     }
-
-
 }
 
 /// <summary>
-/// This contains all the data about the animatronic's movement. Replaces the deprecated arrays in the Animatronic.cs (formerly known as Character_Valves.cs) script
+///     This contains all the data about the animatronic's movement. Replaces the deprecated arrays in the Animatronic.cs
+///     (formerly known as Character_Valves.cs) script
 /// </summary>
 [Serializable]
 public class Movement
 {
-    [Header("General")] 
-    public string name;
+    [Header("General")] public string name;
 
     public AnimationClip animation;
-    [HideInInspector] public AnimationClipPlayable Playable;
     public int bit;
     public Drawer drawer;
-    
-    [Header("Flows")]
-    [Range(0, 4)] public float flowControlOut = 1f;
+
+    [Header("Flows")] [Range(0, 4)] public float flowControlOut = 1f;
+
     [Range(0, 4)] public float flowControlIn = 1f;
-    [Space(10)]
-    [Range(0, 2)] public float gravityScale = 1f;
+
+    [Space(10)] [Range(0, 2)] public float gravityScale = 1f;
+
     [Range(0, 2)] public float gravityScaleOut = 1f;
-    [Space(10)]
-    [Range(0, 1)] public float smashOut;
+
+    [Space(10)] [Range(0, 1)] public float smashOut;
+
     [Range(0, 1)] public float smashIn;
     [Range(0, 1)] public float smashSpeedOut;
     [Range(0, 1)] public float smashSpeedIn;
@@ -454,13 +446,16 @@ public class Movement
     [HideInInspector] public bool smashState;
     [HideInInspector] [Range(0, 1)] public float weightOut;
     [HideInInspector] [Range(0, 1)] public float weightIn;
+
     [Space(10)]
     // Genuinely have no clue why this has to be a float instead of a bool.
     // The code is just too confusing, so I'm leaving it here as a float
     // unless someone wants to try turn it into a bool
-    [HideInInspector] public float invert;
-    
+    [HideInInspector]
+    public float invert;
+
     // Sounds
     [HideInInspector] public bool previousState; // If it's already been played or not
     [HideInInspector] public bool mid; // If it's in the middle of a movement, used for air leaks & squeaks
+    public AnimationClipPlayable Playable;
 }

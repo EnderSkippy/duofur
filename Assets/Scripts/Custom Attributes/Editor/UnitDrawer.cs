@@ -8,8 +8,8 @@ public class UnitDrawer : PropertyDrawer
     {
         UnitAttribute unitAttribute = (UnitAttribute)attribute;
 
-        Rect textFieldRect = new Rect(position.x, position.y, position.width - 40, position.height);
-        Rect unitLabelRect = new Rect(position.x + position.width - 35, position.y, 35, position.height);
+        Rect textFieldRect = new(position.x, position.y, position.width - 40, position.height);
+        Rect unitLabelRect = new(position.x + position.width - 35, position.y, 35, position.height);
 
         EditorGUI.PropertyField(textFieldRect, property, label);
         GUI.Label(unitLabelRect, unitAttribute.Unit);

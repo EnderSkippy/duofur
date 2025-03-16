@@ -14,8 +14,9 @@ public class ReadOnlyDrawer : PropertyDrawer
             for (int i = 0; i < prop.arraySize; i++)
             {
                 SerializedProperty element = prop.GetArrayElementAtIndex(i);
-                Rect elementRect = new Rect(position.x, position.y + (i + 1) * EditorGUIUtility.singleLineHeight, position.width, EditorGUIUtility.singleLineHeight);
-                
+                Rect elementRect = new(position.x, position.y + (i + 1) * EditorGUIUtility.singleLineHeight,
+                    position.width, EditorGUIUtility.singleLineHeight);
+
                 if (element.propertyType == SerializedPropertyType.Generic) // custom class
                 {
                     EditorGUI.LabelField(elementRect, $"[{i}]: (Custom Class)");
@@ -26,6 +27,7 @@ public class ReadOnlyDrawer : PropertyDrawer
                     EditorGUI.LabelField(elementRect, $"[{i}]: {GetPropertyValue(element)}");
                 }
             }
+
             EditorGUI.indentLevel--;
             return;
         }
@@ -45,6 +47,7 @@ public class ReadOnlyDrawer : PropertyDrawer
             position.y += EditorGUIUtility.singleLineHeight;
             EditorGUI.LabelField(position, $"   {iterator.displayName}: {GetPropertyValue(iterator)}");
         }
+
         EditorGUI.indentLevel--;
     }
 
@@ -57,7 +60,8 @@ public class ReadOnlyDrawer : PropertyDrawer
             case SerializedPropertyType.Float: return prop.floatValue.ToString("0.00000");
             case SerializedPropertyType.String: return prop.stringValue;
             case SerializedPropertyType.Enum: return prop.enumNames[prop.enumValueIndex];
-            case SerializedPropertyType.ObjectReference: return prop.objectReferenceValue ? prop.objectReferenceValue.name : "null";
+            case SerializedPropertyType.ObjectReference:
+                return prop.objectReferenceValue ? prop.objectReferenceValue.name : "null";
             case SerializedPropertyType.Generic:
                 if (prop.isArray)
                     return $"Array ({prop.arraySize} elements)"; // show array size instead of "(not supported)"

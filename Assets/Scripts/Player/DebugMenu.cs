@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class DebugMenu : MonoBehaviour
 {
     private bool _showDebug;
-    InputAction debugAction;
+    private InputAction debugAction;
 
     private void Start()
     {
@@ -14,17 +13,11 @@ public class DebugMenu : MonoBehaviour
 
     private void Update()
     {
-        if (debugAction.triggered)
-        {
-            _showDebug = !_showDebug;
-        }
+        if (debugAction.triggered) _showDebug = !_showDebug;
     }
-    
+
     private void OnGUI()
     {
-        if (_showDebug)
-        {
-            GUILayout.Label($"{Mathf.Round(1.0f / Time.deltaTime)}FPS [F1]");
-        }
+        if (_showDebug) GUILayout.Label($"{Mathf.Round(1.0f / Time.deltaTime)}FPS [F1]");
     }
 }

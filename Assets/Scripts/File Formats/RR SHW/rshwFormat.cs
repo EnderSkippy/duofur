@@ -3,7 +3,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 [Serializable]
-[Obsolete("The .*shw format is unsafe and should no longer be used. See https://aka.ms/binaryformatter for more information regarding the vulnerabilites")]
+[Obsolete(
+    "The .*shw format is unsafe and should no longer be used. See https://aka.ms/binaryformatter for more information regarding the vulnerabilites")]
 public class rshwFormat
 {
     public byte[] audioData { get; set; }
@@ -26,10 +27,7 @@ public class rshwFormat
                 throw;
             }
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 }
-

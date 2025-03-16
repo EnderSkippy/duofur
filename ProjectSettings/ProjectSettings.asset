@@ -807,7 +807,8 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: ENABLE_UNITYMESHSIMPLIFIER
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -819,7 +820,7 @@ PlayerSettings:
     Standalone: 2
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   useDeterministicCompilation: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1

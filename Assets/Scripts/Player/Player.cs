@@ -1,105 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using Light = Show.Light;
-using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
-    [Header("World")] 
-    [Range(-15, 10)] public float gravity = -9.81f;
+    [Header("World")] [Range(-15, 10)] public float gravity = -9.81f;
 
-    [Header("Player")] 
-    [Range(0.1f, 2)] public float height = 1.3f;
-    
-    [Header("Movement")] 
-    [Range(1, 10)] public float walkSpeed = 3;
-    private float _currentSpeed = 0f;
+    [Header("Player")] [Range(0.1f, 2)] public float height = 1.3f;
+
+    [Header("Movement")] [Range(1, 10)] public float walkSpeed = 3;
+
     [Range(0.1f, 2)] public float jumpHeight;
-    
-    private float _verticalVelocity = 0f;
-    private float _speedVelocity = 0f;
 
-    [Header("Camera")]
-    public Camera mainCamera;
+    [Header("Camera")] public Camera mainCamera;
+
     [Range(0.1f, 3)] public float sensitivity;
-    private float _targetFOV;
-    private float _targetRoll;
-    
-    private Vector3 _rotation = Vector3.zero;
-    public bool lockCamera = false;
-    private float _camHeight;
+    public bool lockCamera;
     public bool enableCamSmooth;
-    
-    // Flashlight
-    private UnityEngine.Light _flashlight;
-    private bool _flashEnabled;
 
-    
-    [Header("Interaction")]
-    public InteractionMode interactionMode = InteractionMode.None;
+
+    [Header("Interaction")] public InteractionMode interactionMode = InteractionMode.None;
+
     [HideInInspector] public GameObject selection;
     [HideInInspector] public string[] selectionTags;
-    private Outline _lastOutline;
-    
-    [Header("UI")] 
-    public GameObject cursor;
+
+    [Header("UI")] public GameObject cursor;
+
     public GameObject controlUx;
     public TMP_Text cursorText;
     public LayerMask uiLayerMask;
 
-    
-    
-    private bool _isJumping;
-    
     private Vector2 _camAcceleration;
+    private float _camHeight;
+    private bool _clickGamepad;
 
     //Other
     private CharacterController _controller;
-    private bool _clickGamepad;
+    private InputAction _crouchAction;
     private bool _crouchBool;
     private Vector2 _cStick;
+    private float _currentSpeed;
+    private InputAction _exitAction;
     private bool _fixedUpdatelowerFPS;
+    private bool _flashEnabled;
+
+    // Flashlight
+    private Light _flashlight;
+    private InputAction _flashlightAction;
+    private InputAction _interactAction;
+
+
+    private bool _isJumping;
+    private InputAction _jumpAction;
 
     //New Input
     private int _jumpFrames;
+    private Outline _lastOutline;
+    private InputAction _lookAction;
+    private InputAction _menuAction;
 
     // Input Actions
     private InputAction _moveAction;
-    private InputAction _lookAction;
+
+    private PlaybackUI _playbackUI;
     private InputAction _rollAction;
-    private InputAction _interactAction;
-    private InputAction _jumpAction;
-    private InputAction _sprintAction;
-    private InputAction _crouchAction;
-    private InputAction _flashlightAction;
-    private InputAction _menuAction;
-    private InputAction _exitAction;
-    private InputAction _scrollY;
-    
-    PlaybackUI _playbackUI;
+
+    private Vector3 _rotation = Vector3.zero;
 
     private bool _runGamepad;
+    private InputAction _scrollY;
+    private float _speedVelocity;
+    private InputAction _sprintAction;
+    private float _targetFOV;
+    private float _targetRoll;
+
+    private float _verticalVelocity;
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
 
         Cursor.lockState = CursorLockMode.Locked;
-        
+
         _playbackUI = controlUx.GetComponentInChildren<PlaybackUI>();
         _playbackUI.ToggleUI(false);
 
         //Initialize Variables
         _controller = GetComponent<CharacterController>();
-        _flashlight = gameObject.GetComponentInChildren<UnityEngine.Light>();
-        
+        _flashlight = gameObject.GetComponentInChildren<Light>();
+
         // Get Actions
         _moveAction = InputSystem.actions.FindAction("Move");
         _lookAction = InputSystem.actions.FindAction("Look");
@@ -125,8 +117,10 @@ public class Player : MonoBehaviour
             HandleCamera();
         }
         else
+        {
             Cursor.lockState = CursorLockMode.None;
-        
+        }
+
         HandleUI();
 
         if (interactionMode == InteractionMode.Selection)
@@ -134,11 +128,16 @@ public class Player : MonoBehaviour
     }
 
 
-    
+    private void FixedUpdate()
+    {
+        RayCastClick();
+    }
+
+
     /// <summary>
-    /// Handles everything to do with player locomotion
-    /// Walking, sprinting, crouching, etc
-    /// Jetbrains Rider was a lifesaver when writing this script, saved my ass.
+    ///     Handles everything to do with player locomotion
+    ///     Walking, sprinting, crouching, etc
+    ///     Jetbrains Rider was a lifesaver when writing this script, saved my ass.
     /// </summary>
     private void HandleLocomotion()
     {
@@ -146,7 +145,7 @@ public class Player : MonoBehaviour
         Vector2 moveInput = _moveAction.ReadValue<Vector2>();
         float moveForward = moveInput.y;
         float moveRight = moveInput.x;
-    
+
         // Calculate movement direction relative to the camera's rotation
         Vector3 forward = mainCamera.transform.forward;
         Vector3 right = mainCamera.transform.right;
@@ -158,7 +157,7 @@ public class Player : MonoBehaviour
         right.Normalize();
 
         float targetSpeed = Mathf.Clamp01(moveInput.magnitude) * walkSpeed;
-        
+
         // Sprint
         if (_sprintAction.ReadValue<float>() > 0.5f)
             targetSpeed *= 2;
@@ -175,10 +174,10 @@ public class Player : MonoBehaviour
 
         if (_jumpAction.triggered && _controller.isGrounded)
             _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        
+
         // Gravity
         _verticalVelocity += gravity * Time.deltaTime;
-        
+
         // Crouching
         float targetHeight = _crouchAction.ReadValue<float>() > 0.5f ? height / 2 : height;
         _controller.height = Mathf.Lerp(_controller.height, targetHeight, Time.deltaTime * 5);
@@ -190,8 +189,8 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// Handles everything to do with the player camera
-    /// Looking, zooming, roll, flashlight, etc
+    ///     Handles everything to do with the player camera
+    ///     Looking, zooming, roll, flashlight, etc
     /// </summary>
     private void HandleCamera()
     {
@@ -200,8 +199,8 @@ public class Player : MonoBehaviour
         float scroll = _scrollY.ReadValue<float>();
 
         // Camera Zoom
-        _targetFOV -= scroll * 10f; 
-        _targetFOV = Mathf.Clamp(_targetFOV, 10f, 110f); 
+        _targetFOV -= scroll * 10f;
+        _targetFOV = Mathf.Clamp(_targetFOV, 10f, 110f);
 
         mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, _targetFOV, Time.deltaTime * 2f);
 
@@ -224,12 +223,13 @@ public class Player : MonoBehaviour
         _rotation.z = Mathf.Lerp(_rotation.z, _targetRoll, Time.deltaTime * 2f);
 
         Quaternion targetRotation = Quaternion.Euler(_rotation.y, -_rotation.x, _rotation.z);
-        mainCamera.transform.rotation = Quaternion.Slerp(mainCamera.transform.rotation, targetRotation, Time.deltaTime * 10f);
+        mainCamera.transform.rotation =
+            Quaternion.Slerp(mainCamera.transform.rotation, targetRotation, Time.deltaTime * 10f);
     }
 
     /// <summary>
-    /// Handles everything to do with the player UI
-    /// Control menu, etc
+    ///     Handles everything to do with the player UI
+    ///     Control menu, etc
     /// </summary>
     private void HandleUI()
     {
@@ -242,16 +242,11 @@ public class Player : MonoBehaviour
         if (_exitAction.triggered)
             SceneManager.LoadScene("Launcher");
     }
-    
-
-    private void FixedUpdate()
-    {
-        RayCastClick();
-    }
 
     private void RayCastClick()
     {
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, 10f,uiLayerMask))
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out RaycastHit hit, 10f,
+                uiLayerMask))
         {
             cursor.SetActive(true);
             Button3D hitcol = hit.collider.GetComponent<Button3D>();
@@ -260,18 +255,12 @@ public class Player : MonoBehaviour
                 cursor.SetActive(true);
                 cursorText.text = hitcol.buttonText;
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    hitcol.StartClick(gameObject.name);
-                }
-                if (Input.GetMouseButtonUp(0))
-                {
-                    hitcol.EndClick(gameObject.name);
-                }
+                if (Input.GetMouseButtonDown(0)) hitcol.StartClick(gameObject.name);
+                if (Input.GetMouseButtonUp(0)) hitcol.EndClick(gameObject.name);
             }
         }
     }
-    
+
     // Messy as hell code, god forbid anyone who tries working on this :sobs:
     public void HandleSelectMode(string[] tags = null)
     {
@@ -280,12 +269,14 @@ public class Player : MonoBehaviour
             GameObject targetObject = GetOutlineCandidate(hit.collider.gameObject);
 
             // Shit code, but for some reason 64th nestled in the models a lot in an animatronic prefab so we gotta do this.
-            if (targetObject == null || (tags != null && !tags.Contains(targetObject.tag) && !tags.Contains(targetObject.transform.parent.tag) && !tags.Contains(targetObject.transform.parent.tag)))
+            if (targetObject == null || (tags != null && !tags.Contains(targetObject.tag) &&
+                                         !tags.Contains(targetObject.transform.parent.tag) &&
+                                         !tags.Contains(targetObject.transform.parent.tag)))
             {
                 ClearOutline();
                 return;
             }
-            
+
             cursor.SetActive(true);
 
             Outline outline = targetObject.GetComponent<Outline>();
@@ -305,10 +296,9 @@ public class Player : MonoBehaviour
             {
                 if (selection != null)
                     Destroy(selection.GetComponent<Outline>());
-                
+
                 selection = targetObject;
             }
-                
         }
         else
         {
@@ -345,5 +335,5 @@ public class Player : MonoBehaviour
 public enum InteractionMode
 {
     None,
-    Selection,
+    Selection
 }
