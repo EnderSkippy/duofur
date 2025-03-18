@@ -49,7 +49,7 @@ public class OSP_Manager : MonoBehaviour
 
     public async Task Load(string path, IProgress<float> progress = null)
     {
-        string tempMp3Path = null;
+        string tempOggPath = null;
         
         try
         {
@@ -64,13 +64,13 @@ public class OSP_Manager : MonoBehaviour
             byte[] audioData = Convert.FromBase64String(_currentPackage.audioData.data);
             progress?.Report(50);
 
-            tempMp3Path = Path.GetTempFileName();
-            Debug.Log($"OSP Manager: Created temporary mp3 file at {tempMp3Path}");
-            await File.WriteAllBytesAsync(tempMp3Path, audioData);
+            tempOggPath = Path.GetTempFileName();
+            Debug.Log($"OSP Manager: Created temporary mp3 file at {tempOggPath}");
+            await File.WriteAllBytesAsync(tempOggPath, audioData);
             
             progress?.Report(70);
 
-            AudioClip audioClip = await UriToAudioClipAsync(tempMp3Path);
+            AudioClip audioClip = await UriToAudioClipAsync(tempOggPath);
             
             if (!audioClip) throw new Exception("OSP Manager: Failed to create audio clip");
             
@@ -82,12 +82,12 @@ public class OSP_Manager : MonoBehaviour
             _showController.AfterLoad();
             progress?.Report(0);
             
-            File.Delete(tempMp3Path);
+            File.Delete(tempOggPath);
         }
         catch (Exception e)
         {
             Debug.LogError("OSP Manager: Failed to load showtape\n" + e.Message + "\n" + e.StackTrace);
-            if (tempMp3Path != null) File.Delete(tempMp3Path);
+            if (tempOggPath != null) File.Delete(tempOggPath);
             Debug.Log("OSP Manager: Cleared temporary files");
             progress?.Report(0);
         }
@@ -102,7 +102,7 @@ public class OSP_Manager : MonoBehaviour
 
         var tcs = new TaskCompletionSource<AudioClip>();
 
-        using (var uwr = UnityWebRequestMultimedia.GetAudioClip("file://" + path, AudioType.MPEG))
+        using (var uwr = UnityWebRequestMultimedia.GetAudioClip("file://" + path, AudioType.OGGVORBIS))
         {
             ((DownloadHandlerAudioClip)uwr.downloadHandler).streamAudio = false;
 
@@ -167,7 +167,9 @@ public class OSP_Manager : MonoBehaviour
     public async Task<OpenShowtapePackage> ConvertFileAsync(string filePath, IProgress<float> progress = null)
     {
         string tempWav = null;
-        string tempMp3 = null;
+        string tempOgg = null;
+        string tempOgv = null;
+
         try
         {
             OpenShowtapePackage showtape = new();
@@ -190,142 +192,26 @@ public class OSP_Manager : MonoBehaviour
                     progress?.Report(10);
 
                     tempWav = Path.GetTempFileName() + ".wav";
-                    Debug.Log($"OSP Manager: Created temporary WAV container @ {tempWav}");
-
-                    tempMp3 = Path.GetTempFileName() + ".mp3";
-                    Debug.Log($"OSP Manager: Created temporary MP3 container @ {tempMp3}");
+                    tempOgg = Path.GetTempFileName() + ".ogg";
 
                     await File.WriteAllBytesAsync(tempWav, shw.audioData);
-                    Debug.Log(
-                        $"OSP Manager: Wrote .*shw WAV audio data of length {shw.audioData.Length} to temporary WAV container");
+                    progress?.Report(15); // Update after writing WAV file
 
-                    progress?.Report(15);
-                    
-                    ProcessStartInfo processStartInfo = new()
-                    {
-                        FileName = _ffmpeg,
-                        Arguments = $"-i \"{tempWav}\" -vn -b:a 128k \"{tempMp3}\"",
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    };
+                    // Convert WAV to OGG & save
+                    progress?.Report(20);
+                    await ConvertAudioToOggAsync(tempWav, tempOgg, showtape, progress);
 
-                    int numChannels = 0;
-                    int sampleRate = 0;
-                    int bitRate = 0;
-
-                    using (Process process = Process.Start(processStartInfo))
-                    {
-                        if (process != null)
-                        {
-                            string standardError = await process.StandardError.ReadToEndAsync();
-                            string standardOutput = await process.StandardOutput.ReadToEndAsync();
-        
-                            process.WaitForExit();
-
-                            if (process.ExitCode != 0)
-                            {
-                                Debug.LogError($"FFmpeg exited with error code {process.ExitCode}\n{standardError}");
-                                File.Delete(tempWav);
-                                File.Delete(tempMp3);
-                                progress?.Report(0);
-                                return null;
-                            }
-
-                            // Regex patterns to extract channels, sample rate, and bit rate
-                            var channelsRegex = new System.Text.RegularExpressions.Regex(@"Audio:.*?(\d+) channels");
-                            var sampleRateRegex = new System.Text.RegularExpressions.Regex(@"(\d+) Hz");
-                            var bitRateRegex = new System.Text.RegularExpressions.Regex(@"bitrate: (\d+) kb/s");
-
-                            // Extract the number of channels
-                            var channelsMatch = channelsRegex.Match(standardError);
-                            if (channelsMatch.Success)
-                            {
-                                numChannels = int.Parse(channelsMatch.Groups[1].Value);
-                            }
-
-                            // Extract the sample rate
-                            var sampleRateMatch = sampleRateRegex.Match(standardError);
-                            if (sampleRateMatch.Success)
-                            {
-                                sampleRate = int.Parse(sampleRateMatch.Groups[1].Value);
-                            }
-
-                            // Extract the bit rate
-                            var bitRateMatch = bitRateRegex.Match(standardError);
-                            if (bitRateMatch.Success)
-                            {
-                                bitRate = int.Parse(bitRateMatch.Groups[1].Value);
-                            }
-                        }
-                    }
-
-                    progress?.Report(30);
-
-                    Debug.Log("OSP Manager: Converted WAV container to MP3 via ffmpeg");
-
-                    byte[] tempMp3Bytes = await File.ReadAllBytesAsync(tempMp3);
-
-                    progress?.Report(35);
-
-                    // Set the audio data, channels, sample rate, and bit rate
-                    showtape.audioData = new OspAudioData
-                    {
-                        data = Convert.ToBase64String(tempMp3Bytes),
-                        channels = numChannels,
-                        sampleRate = sampleRate,
-                        bitRate = bitRate
-                    };
-
-
-                    progress?.Report(40);
-
-                    Debug.Log("OSP Manager: Audio conversion to MP3 complete. Deleting temporary files");
-                    File.Delete(tempMp3);
+                    File.Delete(tempOgg);
                     File.Delete(tempWav);
 
-                    Debug.Log("OSP Manager: Converting signals to frames");
+                    // Process signal to frames
+                    await ConvertSignalToFramesAsync(shw, showtape, progress);
 
-                    // Process signals with progress update
-                    showtape.frameRate = 60;
-                    showtape.frames = await Task.Run(() =>
-                    {
-                        var newSignals = new List<List<int>>();
-                        int countLength = 0;
-                        int totalSignals = shw.signalData.Length;
-
-                        if (totalSignals > 0 && shw.signalData[0] != 0)
-                        {
-                            countLength = 1;
-                            newSignals.Add(new List<int>());
-                        }
-
-                        for (int i = 0; i < totalSignals; i++)
-                        {
-                            if (shw.signalData[i] == 0)
-                            {
-                                countLength += 1;
-                                newSignals.Add(new List<int>());
-                            }
-                            else
-                            {
-                                newSignals[countLength - 1].Add(shw.signalData[i] - 1);
-                            }
-
-                            if (progress != null && i >= totalSignals * 40 && i % (totalSignals / 100) == 0)
-                            {
-                                float percentage = 40 + (float)(i - totalSignals * 40) / (totalSignals * 60) * 60;
-                                progress.Report(percentage);
-                            }
-                        }
-
-                        return newSignals.Select(lst => lst.ToArray()).ToArray();
-                    });
-
-                    Debug.Log("OSP Manager: Signal to frame conversion complete.");
+                    // Handle video conversion if available
+                    await ConvertVideoAsync(filePath, showtape, progress);
 
                     Debug.Log($"OSP Manager: {ex} to OSP conversion complete!");
+                    progress?.Report(0);
                     return showtape;
                 }
 
@@ -337,15 +223,180 @@ public class OSP_Manager : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"OSP Manager: Conversion failed with exception:\n{e}");
-            if (tempWav != null)
-                File.Delete(tempWav);
-
-            if (tempMp3 != null)
-                File.Delete(tempMp3);
-            
+            CleanUpTempFiles(tempWav, tempOgg, tempOgv);
             progress?.Report(0);
-
             return null;
         }
+    }
+
+    private async Task ConvertAudioToOggAsync(string tempWav, string tempOgg, OpenShowtapePackage showtape, IProgress<float> progress)
+    {
+        ProcessStartInfo processStartInfo = new()
+        {
+            FileName = _ffmpeg,
+            Arguments = $"-i \"{tempWav}\" -vn -b:a 128k \"{tempOgg}\"",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using Process process = Process.Start(processStartInfo);
+        if (process != null)
+        {
+            string standardError = await process.StandardError.ReadToEndAsync();
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                Debug.LogError($"FFmpeg exited with error code {process.ExitCode}\n{standardError}");
+                throw new Exception("OGG conversion failed.");
+            }
+            
+            progress?.Report(30);
+        }
+
+        // extract audio metadata
+        ProcessStartInfo ffmpegInfo = new()
+        {
+            FileName = _ffmpeg,
+            Arguments = $"-i \"{tempWav}\"",
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using Process infoProcess = Process.Start(ffmpegInfo);
+        if (infoProcess != null)
+        {
+            string infoOutput = await infoProcess.StandardError.ReadToEndAsync();
+            infoProcess.WaitForExit();
+
+            showtape.audioData = new OspAudioData
+            {
+                channels = ExtractIntFromFFmpegOutput(infoOutput, "Audio:.*?(\\d+) channels"),
+                sampleRate = ExtractIntFromFFmpegOutput(infoOutput, "(\\d+) Hz"),
+                bitRate = ExtractIntFromFFmpegOutput(infoOutput, "(\\d+) kb/s"),
+                data = Convert.ToBase64String(await File.ReadAllBytesAsync(tempOgg))
+            };
+        }
+    }
+
+    // helper function to extract integer values from ffmpeg output
+    private int ExtractIntFromFFmpegOutput(string output, string pattern)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(output, pattern);
+        return match.Success ? int.Parse(match.Groups[1].Value) : 0;
+    }
+
+
+    private async Task ConvertSignalToFramesAsync(rshwFormat shw, OpenShowtapePackage showtape, IProgress<float> progress)
+    {
+        showtape.frameRate = 60;
+
+        showtape.frames = await Task.Run(() =>
+        {
+            var newSignals = new List<List<int>>();
+            int countLength = 0;
+            int totalSignals = shw.signalData.Length;
+
+            if (totalSignals > 0 && shw.signalData[0] != 0)
+            {
+                countLength = 1;
+                newSignals.Add(new List<int>());
+            }
+
+            for (int i = 0; i < totalSignals; i++)
+            {
+                if (shw.signalData[i] == 0)
+                {
+                    countLength += 1;
+                    newSignals.Add(new List<int>());
+                }
+                else
+                {
+                    newSignals[countLength - 1].Add(shw.signalData[i] - 1);
+                }
+
+                if (i % (totalSignals / 100) == 0)
+                {
+                    float percentage = 40 + (float)(i) / (totalSignals * 60) * 60;
+                    UnityMainThreadDispatcher.Dispatcher.Enqueue(() => progress?.Report(percentage));
+                }
+            }
+
+            return newSignals.Select(lst => lst.ToArray()).ToArray();
+        });
+
+        Debug.Log("OSP Manager: Signal to frame conversion complete.");
+        progress?.Report(50);
+    }
+
+    private async Task ConvertVideoAsync(string filePath, OpenShowtapePackage showtape, IProgress<float> progress)
+    {
+        string videoPath = Path.Join(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + ".mp4");
+        if (File.Exists(videoPath))
+        {
+            Debug.Log($"OSP Manager: Video found at {videoPath}, beginning conversion. This may take a while.");
+            string tempOgv = Path.GetTempFileName() + ".ogv";
+
+            ProcessStartInfo videoProcessStartInfo = new()
+            {
+                FileName = _ffmpeg,
+                Arguments = $"-i \"{videoPath}\" -c:v libtheora -q:v 5 -preset fast -an \"{tempOgv}\"",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = false
+            };
+
+            using Process process = Process.Start(videoProcessStartInfo);
+            if (process != null)
+            {
+                Task<string> standardOutputTask = process.StandardOutput.ReadToEndAsync();
+                Task<string> standardErrorTask = process.StandardError.ReadToEndAsync();
+
+                await Task.WhenAny(Task.Run(() => process.WaitForExit()), Task.WhenAll(standardOutputTask, standardErrorTask));
+
+                string standardError = standardErrorTask.Result;
+
+                if (!string.IsNullOrEmpty(standardError))
+                {
+                    Debug.LogError($"FFmpeg Error Output:\n{standardError}");
+                }
+
+                if (process.ExitCode != 0)
+                {
+                    Debug.LogError($"FFmpeg exited with error code {process.ExitCode}\n{standardError}");
+                    File.Delete(tempOgv);
+                    progress?.Report(0);
+                    return;
+                }
+            }
+
+            Debug.Log("OSP Manager: Video conversion complete.");
+            
+            byte[] webmData = await File.ReadAllBytesAsync(tempOgv);
+            
+            showtape.videoData = new OspVideoData
+            {
+                data = Convert.ToBase64String(webmData)
+            };
+
+            File.Delete(tempOgv);
+            progress?.Report(60);
+        }
+        else
+        {
+            Debug.Log("OSP Manager: Could not find video file in the directory the showtape is in, so will not convert.");
+        }
+    }
+
+    private void CleanUpTempFiles(string tempWav, string tempOgg, string tempOgv)
+    {
+        Debug.Log("OSP Manager: Cleaning up temporary files.");
+        if (tempWav != null) File.Delete(tempWav);
+        if (tempOgg != null) File.Delete(tempOgg);
+        if (tempOgv != null) File.Delete(tempOgv);
     }
 }
