@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 0f14e559818578098bafaf5dc25f89f2, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 73dfdc3d0f144014f8bc66590f85fa54, type: 2}
+      objectReference: {fileID: 2100000, guid: 0f016e5a27b384041b4833049a4cd3c1, type: 2}
     - target: {fileID: 919132149155446097, guid: 0f14e559818578098bafaf5dc25f89f2, type: 3}
       propertyPath: m_Name
       value: Sign

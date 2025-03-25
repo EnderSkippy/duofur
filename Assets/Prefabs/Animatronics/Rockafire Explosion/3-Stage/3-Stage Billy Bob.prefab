@@ -1,0 +1,761 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2444672624147830757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7710237450947692264}
+  - component: {fileID: 3903016417639609600}
+  m_Layer: 0
+  m_Name: 3-Stage Billy Bob
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7710237450947692264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444672624147830757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3492282022354646245}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3903016417639609600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444672624147830757}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.38895103, y: 1.5948901, z: 0.28742307}
+  m_Center: {x: -0.0066620335, y: 0.7595866, z: 0.012224346}
+--- !u!1001 &4034568318316909326
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7710237450947692264}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 40.76
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8595674904610815711, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7030219592342931679, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5185765847319367523, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4561193470005248270, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2923766115836240309, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2578815503918374615, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2418447339448717214, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1688617927700330159, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1314584013615251059, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1314584013615251059, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5332e488c3ecced56a04b0fa367c11f4, type: 2}
+    - target: {fileID: -1314584013615251059, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e9dc92beee08f3a4cb9edb5293201dd1, type: 2}
+    - target: {fileID: -646609513654099797, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -646609513654099797, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5332e488c3ecced56a04b0fa367c11f4, type: 2}
+    - target: {fileID: -646609513654099797, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e9dc92beee08f3a4cb9edb5293201dd1, type: 2}
+    - target: {fileID: 20555759737003556, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 710183102880238943, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_Name
+      value: BillyShowbiz
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504644826221559707, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3662607860431151180, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4214360658292273178, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641887327988665930, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776023759949599667, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160934770509795578, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_Name
+      value: Armature
+      objectReference: {fileID: 0}
+    - target: {fileID: 7160934770509795578, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7493558928055654926, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704266192320215300, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9081650320135491457}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6177194396243841171}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8795985366352988114}
+  m_SourcePrefab: {fileID: 100100000, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+--- !u!4 &3492282022354646245 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+  m_PrefabInstance: {fileID: 4034568318316909326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4268501310495403615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+  m_PrefabInstance: {fileID: 4034568318316909326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9081650320135491457
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268501310495403615}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &6177194396243841171
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268501310495403615}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8795985366352988114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268501310495403615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649eaf629188b374b8fcda18fbf0a608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PSIScale: 1
+  movements:
+  - name: Mouth
+    animation: {fileID: -1400729384605972557, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 46
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Head Right
+    animation: {fileID: -3403960994174772431, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 52
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Head Left
+    animation: {fileID: -6577138895837638246, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 51
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Body Lean
+    animation: {fileID: -7407916199137096884, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 63
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Body Left
+    animation: {fileID: 8016531802047372375, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 61
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Body Right
+    animation: {fileID: -3816223361859690260, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 62
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Head Up
+    animation: {fileID: -5047717746629447203, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 55
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Head Tilt Right
+    animation: {fileID: -9188758037755831281, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 54
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Head Tilt Left
+    animation: {fileID: 526402855126258128, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 53
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Guitar Raise
+    animation: {fileID: 4943170692604499659, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 40
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Guitar Slide
+    animation: {fileID: -3754445076883753320, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 39
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Foot Tap
+    animation: {fileID: 2295634414707178314, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 44
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Wrist
+    animation: {fileID: -6684015078380512896, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 59
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Strum
+    animation: {fileID: -3957888924700851956, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 58
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Arm Twist
+    animation: {fileID: 6571660120627390595, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 57
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Arm Raise
+    animation: {fileID: 4607637514412819795, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 56
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Eye Left
+    animation: {fileID: -2389193069945694251, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 49
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Eye Right
+    animation: {fileID: -2543204820721877990, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 50
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Left Lid
+    animation: {fileID: -3136873770525020641, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 47
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  - name: Right Lid
+    animation: {fileID: -8788819481688904389, guid: 584958942d378b84db67e70f06b6aa5d, type: 3}
+    bit: 48
+    drawer: 1
+    flowControlOut: 1
+    flowControlIn: 1
+    gravityScale: 1
+    gravityScaleOut: 1
+    smashOut: 0
+    smashIn: 0
+    smashSpeedOut: 0
+    smashSpeedIn: 0
+    smashIteration: 0
+    smashState: 0
+    weightOut: 0
+    weightIn: 0
+    invert: 0
+    previousState: 0
+    mid: 0
+  soundStyle: 0
+  valves: 1
+  squeaks: 1
+  airLeaks: 1
+  dualPressureState: 1
+  specialState: 0
+  headOutBit: 0
+  headInBit: 0
