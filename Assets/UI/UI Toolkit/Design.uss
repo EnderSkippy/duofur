@@ -423,6 +423,7 @@
     padding-right: 12px;
     padding-bottom: 12px;
     padding-left: 12px;
+    flex-direction: column;
 }
 
 .navigation-rail > .unity-tab-view__header-container > .unity-tab__header {
@@ -436,26 +437,34 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
     background-color: rgba(0, 0, 0, 0);
+    font-size: 12px;
 }
 
 .navigation-rail > .unity-tab-view__header-container > .unity-tab__header > .unity-tab__header-image {
-    min-width: 24px;
-    min-height: 24px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    transition-property: background-color, width;
+    transition-duration: 0.25s, 0.25s;
+    height: 28px;
+    width: 28px;
+    transition-timing-function: ease-in, ease-in;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
     margin-top: 0;
     margin-right: 0;
-    margin-bottom: 0;
+    margin-bottom: 2px;
     margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
 }
 
 .navigation-rail > .unity-tab-view__content-container {
@@ -495,4 +504,27 @@
 .surface {
     flex-grow: 1;
     background-color: var(--color-surface);
+}
+
+.navigation-rail > .unity-tab-view__header-container > .unity-tab__header:checked > .unity-tab__header-image {
+    background-color: var(--color-secondary-container);
+    transition-property: background-color, width;
+    transition-duration: 0.25s, 0.25s;
+    width: 100%;
+    transition-timing-function: ease-out, ease-out;
+}
+
+.navigation-rail > .unity-tab-view__header-container > .unity-tab__header > .unity-tab__header-label {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Roboto/Roboto-SemiBold.ttf?fileID=12800000&guid=07b6f07e24f87a381b8840e0a8ca8588&type=3#Roboto-SemiBold");
+    color: var(--color-on-surface-variant);
+    transition-duration: 0.25s;
+}
+
+.navigation-rail > .unity-tab-view__header-container > .unity-tab__header:checked > .unity-tab__header-label {
+    color: var(--color-on-surface);
+    transition-duration: 0.25s;
 }

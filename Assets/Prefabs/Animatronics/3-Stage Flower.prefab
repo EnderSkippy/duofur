@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Animatronic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7966070795022329106
 Transform:
@@ -122,9 +122,37 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7030219592342931679, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -4525250504527591163, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
       propertyPath: m_Name
       value: CU Flower
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528860797864257434, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654055984030743504, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 8882080965330811773, guid: 8040c61cb9ad57b4a8f08063b07d7ebf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -156,7 +184,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

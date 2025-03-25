@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Animatronic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7966070795022329106
 Transform:
@@ -122,9 +122,33 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7938008365796423708, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -7030219592342931679, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
       propertyPath: m_Name
       value: Wink
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6905609870639353253, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7036213049465896255, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739611956876098960, guid: 40a5bcbbf9785b248afb182de01e50be, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -161,7 +185,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

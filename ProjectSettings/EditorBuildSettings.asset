@@ -9,11 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Launcher/Launcher.unity
     guid: 0def511cfb257fbf5932fa4e9fee40df
   - enabled: 1
-    path: Assets/Scenes/Maps/MAP 3-Stage Default/MAP 3-Stage Default.unity
+    path: Assets/Scenes/Maps/MAP 3-Stage CEC/MAP 3-Stage CEC.unity
     guid: f05b207fdd26b56c1a78ba96c58953f4
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 1ad4485362b30e14db989c88e5cdf70e, type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 396d6d3e9c771e24ea59ebd25ab84624, type: 2}
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: b7de90e05cf19b10781ba201bd9686b4, type: 2}
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: aa1075654c97ea77196f855d32a06cf3, type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: 08dfd2ecd247e3841a6c836ee61a6a3d, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 6a712d71624334d5e97a7a516bf2d043, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e985232ef48a1b748be3ccf81d9bfb2a, type: 2}
